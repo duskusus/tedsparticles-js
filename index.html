@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<head>
+    <title>tedsparticles</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <div class="overlay" id="overlay">
+        <h1 id="title">tedsparticles</h1>
+        <div class="sidebar" id="sidebar" hidden="true">
+            <div class="sidebarItem" hidden="true">Sidebar Item</div>
+        </div>
+        <div id="configure" class="configure" hidden="false">
+            <input type="text" id="componentP" style="display:block" placeholder="P(x, y, z)" onkeydown="parseVF('P', event)">
+            <input type="text" id="componentQ" style="display:block" placeholder="Q(x, y, z)" onkeydown="parseVF('Q', event)">
+            <input type="text" id="componentR" style="display:block" placeholder="R(x, y, z)" onkeydown="parseVF('R', event)">
+        </div>
+    </div>
+    <canvas id="mainCanvas"></canvas>
+    <script src="colors.js"></script>
+    <script src="vectors.js"></script>
+    <script src="util.js"></script>
+    <script src="main.js"></script>
+</body>
