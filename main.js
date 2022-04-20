@@ -7,7 +7,8 @@ var sidebar = document.getElementById("sidebar")
 var sidebarItems = sidebar.children
 var firstItem = sidebarItems[0]
 var configureDialogue = document.getElementById("configure")
-
+var webGLToggle= document.getElementById("webGLToggle")
+var webGL = false;
 var currentFunction = {
     P: (x, y, z) => { return x },
     Q: (x, y, z) => { return y },
@@ -26,6 +27,22 @@ var createNewSidebarItem = (text) => {
     newSidebarItem.hidden = false
     return newSidebarItem
 }
+webGLToggle.onclick = ()=>{
+    webGLToggle .innerHTML = "disable webGL"
+    console.log("webgl toggle")
+    if(web){
+        context = canvas.getContext("webgl")
+        if(context == null) {
+            alert("could not initalize webgl")
+        } else {
+            webGLMain()
+
+        }
+    } else {
+        context = canvas.getContext("2d")
+        console.log("canvas mode")
+    }
+}
 //main renderer??
 
 var defVecField = createNewSidebarItem("define vector field")
@@ -37,10 +54,9 @@ renderButton.onclick = ()=> {
     render()
 }
 function parseVF(functionComponent, event) {
-    if (event.keyCode == 13) {
-        var value = document.getElementById("component" + functionComponent).value
-        currentFunction[functionComponent] = new Function("x", "y", "z", "return " + value)
-    }
+    var value = document.getElementById("component" + functionComponent).value
+    currentFunction[functionComponent] = new Function("x", "y", "z", "return " + value)
+    render()
 }
 function draw3DVector(x, y, z) {
     context.beginPath()
@@ -51,8 +67,8 @@ function render() {
     console.log("rendering")
     context.fillStyle = "#000"
     context.fillRect(0, 0, canvas.width, canvas.height)
-    const x_divisions = 20
-    const y_divisions = 12
+    const x_divisions = 40
+    const y_divisions = 24
     const x_step = canvas.width / x_divisions
     const y_step = canvas.height / y_divisions
     for (i = 0; i < x_divisions; i++) {
@@ -62,10 +78,9 @@ function render() {
             context.beginPath()
             context.lineWidth = 1
             context.strokeStyle = "#fff"
-            context.moveTo(start_x * canvas.width, start_y * canvas.height)
-            context.lineTo(canvas.width * (start_x + currentFunction.P(start_x, start_y, 0)),canvas.height * (currentFunction.Q(start_x, start_y, 0)))
+            context.moveTo(start_x * canvas.width, start_y * canvas.width)
+            context.lineTo(canvas.width * (start_x + currentFunction.P(start_x, start_y, 0)),canvas.width * (currentFunction.Q(start_x, start_y, 0)))
             context.stroke()
-            console.log(i, j)
         }
     }
 }
